@@ -11,8 +11,8 @@ import java.net.URISyntaxException;
 
 public class HdfsUtils {
 
-    private static final String HDFS_PATH = "hdfs://127.0.0.1:19000"; // 默认为9000端口，此为 namenode 界面显示的Active的地址
-    private static final String HDFS_USER = "";
+    private static final String HDFS_PATH = "hdfs://Master:9000"; // 默认为9000端口，此为 namenode 界面显示的Active的地址
+    private static final String HDFS_USER = "root";
 
     public static FileSystem fileSystem = getHDFSFileSystem();;
 
@@ -21,24 +21,31 @@ public class HdfsUtils {
         FileSystem fileSystem = null;
         Configuration configuration = new Configuration();
         configuration.set("fs.defaultFS", HDFS_PATH);
+//        configuration.set("dfs.replication", "1");
+        configuration.set("dfs.client.use.datanode.hostname", "true");
         try {
-            fileSystem = FileSystem.get(URI.create(HDFS_PATH),configuration);
-        } catch (IOException e) {
+            fileSystem = FileSystem.get(URI.create(HDFS_PATH),configuration,HDFS_USER);
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
         return fileSystem;
     }
 
-    public static void upFile(String srcPath,String dstPath) throws IOException {
-        Path src=new Path(srcPath); // 本地要上传的文件
-        Path dst=new Path(dstPath); // 放在hdfs上的地方
-        FileSystem fileSystem = getHDFSFileSystem();
-        fileSystem.copyFromLocalFile(src, dst);
+    public static void upFile(String srcPath,String dstPath){
+       try{
+           Path src=new Path(srcPath); // 本地要上传的文件
+           Path dst=new Path(dstPath); // 放在hdfs上的地方
+           FileSystem fileSystem = getHDFSFileSystem();
+           fileSystem.copyFromLocalFile(src, dst);
+       }catch (Exception e){
+           e.printStackTrace();
+       }
     }
 
     public static void deleteFile(String path) throws IOException {
         HdfsUtils.fileSystem.delete(new Path(path), true);
+        System.out.println("=====================> 删除 "+path);
     }
 
 
@@ -98,8 +105,8 @@ public class HdfsUtils {
 
     public static void main(String[] args) throws IOException {
 
-//        upFile("D:/dept.txt","/");
         deleteFile("/dept.txt");
+        upFile("D:/dept.txt","/");
 
 //        FileSystem fileSystem = getHDFSFileSystem();
 //        FileStatus stats[]=fileSystem.listStatus(new Path("/"));
