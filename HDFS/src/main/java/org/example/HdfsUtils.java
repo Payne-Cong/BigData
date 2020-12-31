@@ -43,9 +43,29 @@ public class HdfsUtils {
        }
     }
 
+    /**
+     * 删除文件夹及其下的文件
+     * @param path
+     * @throws IOException
+     */
     public static void deleteFile(String path) throws IOException {
         HdfsUtils.fileSystem.delete(new Path(path), true);
         System.out.println("=====================> 删除 "+path);
+    }
+
+    /**
+     *  删除文件夹下的所有文件,不包括文件夹本身
+     * @param path
+     * @throws IOException
+     */
+    public static void deleteDirAllinFile(String path) throws IOException {
+        FileSystem fileSystem = HdfsUtils.fileSystem;
+        RemoteIterator<LocatedFileStatus> listFiles = fileSystem.listFiles(new Path(path), false);
+        while (listFiles.hasNext()){
+            LocatedFileStatus nextFile = listFiles.next();
+            fileSystem.delete(nextFile.getPath(),false);
+            System.out.println("=====================> 删除 "+ nextFile.getPath().getName());
+        }
     }
 
 
@@ -65,8 +85,15 @@ public class HdfsUtils {
         // 删除文件夹 ，如果是非空文件夹，参数2必须给值true
 //        fileSystem.delete(new Path("/B"), true);
 
-
     }
+
+    public static void makeDir(String pathDir) throws IOException {
+        FileSystem fileSystem = getHDFSFileSystem();
+        fileSystem.mkdirs(new Path(pathDir));
+        System.out.println("创建文件夹: "+ pathDir);
+    }
+
+
 
     public static void findListFiles() throws FileNotFoundException, IllegalArgumentException, IOException {
         FileSystem fileSystem = getHDFSFileSystem();
@@ -105,8 +132,12 @@ public class HdfsUtils {
 
     public static void main(String[] args) throws IOException {
 
-        deleteFile("/dept.txt");
-        upFile("D:/dept.txt","/");
+//        makeDir("/cmdData");
+//        deleteFile("/dept.txt");
+//        upFile("D:/dept.txt","/");
+
+//        deleteFile("/cmdData/");
+//        deleteDirAllinFile("/cmdData");
 
 //        FileSystem fileSystem = getHDFSFileSystem();
 //        FileStatus stats[]=fileSystem.listStatus(new Path("/"));
