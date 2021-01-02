@@ -1,13 +1,11 @@
-package org.example;
+package org.example.hdfs;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 public class HdfsUtils {
 
@@ -136,7 +134,7 @@ public class HdfsUtils {
 //        deleteFile("/dept.txt");
 //        upFile("D:/dept.txt","/");
 
-//        deleteFile("/cmdData/");
+        deleteFile("/cmdData/");
 //        deleteDirAllinFile("/cmdData");
 
 //        FileSystem fileSystem = getHDFSFileSystem();
