@@ -36,7 +36,9 @@ public class HdfsUtils {
            Path dst=new Path(dstPath); // 放在hdfs上的地方
            FileSystem fileSystem = getHDFSFileSystem();
            fileSystem.copyFromLocalFile(src, dst);
+           System.out.println("源文件: "+srcPath+" =======> 目标地址: "+dstPath+"   上传成功");
        }catch (Exception e){
+           System.out.println("源文件: "+srcPath+" =======> 目标地址: "+dstPath+"   上传失败");
            e.printStackTrace();
        }
     }
@@ -131,10 +133,11 @@ public class HdfsUtils {
     public static void main(String[] args) throws IOException {
 
 //        makeDir("/cmdData");
-//        deleteFile("/dept.txt");
-//        upFile("D:/dept.txt","/");
+        deleteFile("/dept.txt");
+        upFile("D:/dept.txt","/");
+//        upFile("D:/test.txt","/");
 
-        deleteFile("/cmdData/");
+//        deleteFile("/cmdData/");
 //        deleteDirAllinFile("/cmdData");
 
 //        FileSystem fileSystem = getHDFSFileSystem();
