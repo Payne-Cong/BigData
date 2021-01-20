@@ -11,3 +11,13 @@
 
 ## Hive
  - 无
+ 
+ 
+## 环境搭建
+ - centos7
+ - docker
+ - 目前只包含Hadoop 和 hive,具体使用参考[教程](https://hub.docker.com/repository/docker/paynesong/hadoop_master/general)
+ ```bash
+ docker pull paynesong/hadoop_master:1.0
+ docker pull paynesong/mysql_hivemetadata:1.0
+ ```
