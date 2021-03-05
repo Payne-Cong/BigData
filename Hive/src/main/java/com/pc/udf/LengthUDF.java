@@ -27,6 +27,7 @@ public class LengthUDF extends GenericUDF {
     // 计算
     public Object evaluate(DeferredObject[] deferredObjects) throws HiveException {
 
+        // deferredObjects 内部还有包装类型
         String arg = deferredObjects[0].get().toString();
         if(arg == null) return 0;
         return arg.length();
